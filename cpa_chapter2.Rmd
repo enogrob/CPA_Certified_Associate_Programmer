@@ -1,0 +1,38 @@
+![](http://education.cppinstitute.org/images/logo.png)
+
+***
+
+CPA - C++ Certified Associate Programmer
+----------------------------------------
+
+***
+
+### 2. Advanced flow control and data aggregates
+#### 2.1 If and else - the more powerful conditional instruction
+#### 2.2 More types and when we use them
+#### 2.3 Loops
+```{r eval=FALSE, engine='Rcpp'}
+#include <iostream>
+using namespace std;
+int main() {
+  for(float val = -10.0; val < 100.0; val = -val * 2) {
+    if(val < 0 && -val >= 40)
+      break;
+      cout << "*";
+  }
+  return 0;
+}
+```
+
+```{r eval=TRUE, engine='bash'}
+g++ source/question3.cpp -o source/question3
+./source/question3
+```
+#### 2.4 Bool's algebra and computer logic
+#### 2.5 switch - the different face of 'if'
+#### 2.6 Vectors: why do you need them?
+#### 2.7 Initiators - the simple way to set an array
+#### 2.8 Not only ints
+#### 2.9 Arrays of arrays: multidimensional arrays
+#### 2.10 Structures - why do we need them?
+#### 2.11 Declaring and initializing structures
