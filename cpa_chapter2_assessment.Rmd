@@ -7,10 +7,8 @@ CPA - C++ Certified Associate Programmer
 
 ***
 
-### 2. Advanced flow control and data aggregates
-#### 2.1 If and else - the more powerful conditional instruction
-#### 2.2 More types and when we use them
-#### 2.3 Loops
+### 2. Chapter 2 Assesment
+#### Question 3
 ```{r eval=FALSE, engine='Rcpp'}
 #include <iostream>
 using namespace std;
@@ -28,11 +26,22 @@ int main() {
 g++ source/question3.cpp -o source/question3
 ./source/question3
 ```
-#### 2.4 Bool's algebra and computer logic
-#### 2.5 switch - the different face of 'if'
-#### 2.6 Vectors: why do you need them?
-#### 2.7 Initiators - the simple way to set an array
-#### 2.8 Not only ints
-#### 2.9 Arrays of arrays: multidimensional arrays
-#### 2.10 Structures - why do we need them?
-#### 2.11 Declaring and initializing structures
+
+#### Question 5
+```{r eval=FALSE, engine='Rcpp'}
+#include <iostream>
+using namespace std;
+int main() {
+int t[] = { 5, 4, 3, 2, 1 }, i;
+  for(i = t[4]; i < t[0]; i++)
+    t[i - 1] = -t[3];
+  cout << i;
+  return 0;
+}
+```
+```
+```{r eval=TRUE, engine='bash'}
+g++ source/question5.cpp -o source/question5
+./source/question5
+```
+```
