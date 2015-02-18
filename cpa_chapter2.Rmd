@@ -9,7 +9,104 @@ CPA - C++ Certified Associate Programmer
 
 ### 2. Advanced flow control and data aggregates
 #### 2.1 If and else - the more powerful conditional instruction
+##### 2.1.1 The conditional statement
+**The conditional statement - more conditional than before**
+
+We concluded our last discussion on conditional statements with a promise that we will introduce a more complex and flexible form soon. We started our tale with a simple phrase which read: "If the weather is good, we will go for a walk". Note - there is not a word about what will happen if it rains cats and dogs. We only know that we certainly won't go outdoors but what we could do instead is not known. We may want to plan something in case of the bad weather too.
+We can say, for example: "If the weather is good we will go for a walk, otherwise we will go to a theatre". This sentence makes our plans more resistant to the whims of fate - we know what we'll do if the conditions are met and we know what we shall do if not everything goes our way. In other words, we have a plan "B".
+
+The `C++` language allows us to express such alternative plans. This is done with a second, slightly more complex form of the conditional statement - here it is:
+
+Thus, we have a new word: `else` - this is the keyword (reserved word). The statement which begins with `else` tells us what to do if the condition specified for the if is not met.
+
+So the `if-else` execution goes as follows:
+
+if the condition evaluates to `true` (its value is not equal to zero) the perform_if_condition_true is executed and the conditional statement comes to an end;
+if the condition evaluates to `false` (it is equal to zero) the perform_if_condition_false is executed and the conditional statement comes to an end.
+```{r eval=FALSE, engine='Rcpp'}
+if (true_or_false_condition)
+  perform_if_condition_true;
+else
+  perform_if_condition_false;
+```
+
+##### 2.1.2 The conditional statement
+**The conditional statement - more conditional than before**
+
+By using this form of the conditional statement we can describe our plans as follows:
+```{r eval=FALSE, engine='Rcpp'}
+if(TheWeatherIsGood)
+  GoForAWalk();
+else
+  GoToATheatre();
+HaveLunch();
+```
+
+##### 2.1.3 The conditional statement
+**The conditional statement - more conditional than before**
+
+As well as in already known simplified forms of this instruction, both if and else may contain only one statement. If you are going to put more than one instruction there you have to use a block, as in the example presented on the right:
+```{r eval=FALSE, engine='Rcpp'}
+if(TheWeatherIsGood) {
+  GoForAWalk();
+  HaveFun();
+}
+else {
+  GoToATheatre();
+  EnjoyTheMovie();
+}
+HaveLunch();
+```
+
+##### 2.1.4 The conditional statement
+**The conditional statement - more conditional than before**
+
+Now we shall discuss two special cases of the conditional statement. First, consider the surprising case when the instruction placed after the `if` is another `if`.
+Listen to what we have planned for this Sunday. If the weather is fine we will go for a walk. If we find a nice restaurant, we will have lunch there. Otherwise, we will eat a sandwich. If the weather is poor, we'll go to the theatre. If there are no tickets, we will go shopping in the nearest mall.
+Terribly complicated, right? Let us write the same in the `C++` language. Consider carefully the code on the right:
+```{r eval=FALSE, engine='Rcpp'}
+if(TheWeatherIsGood)
+  if(NiceRestaurantFound)
+    HaveLunch();
+  else
+    EatASandwich();
+else
+  if(TicketsAvailable)
+    GoToATheatre();
+  else
+    GoShopping();
+```
+
+Let us present two important points:
+
+such a use of the `if` statement is known as nesting; remember that every `else` refers to the closest former if which did not match any other `else`; that knowledge is needed to determine how the ifs and elses pair up ;
+consider how the indentation improves readability and emphasizes the nesting of inner conditional statements.
+
+##### 2.1.5 The conditional statement
+**The conditional statement - more conditional than before**
+
+The second special case slightly resembles the nesting but similarities are very inconsiderable. Again, we will change our plans and express them as follows: "If the weather is fine, we'll go for walk, otherwise if we get tickets, we will go to the theatre, otherwise if there are free tables at the restaurant, we will go for lunch, if everything fails we will return home and will play chess". Have you noticed how many alternatives have we listed here? Let us write the same scenario in the `C++` language:
+```{r eval=FALSE, engine='Rcpp'}
+if(TheWeatherIsGood)
+    GoForAWalk();
+else if(TicketsAvailable)
+    GoToATheatre();
+else if(TableAvailable)
+    GoForALunch();
+else
+    PlayChessAtHome();
+```
+
+The way to assemble subsequent `if` statements is called a cascade. Notice again how the indentation improves readability of the code.
+
+Now let our mind work out all that we have told it about conditional statements while we pay attention to our old friends - types int, char and float. We are going to meet their siblings.
+
 #### 2.2 More types and when we use them
+
+
+
+
+
 #### 2.3 Loops
 ```{r eval=FALSE, engine='Rcpp'}
 #include <iostream>
