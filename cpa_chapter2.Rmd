@@ -102,8 +102,122 @@ The way to assemble subsequent `if` statements is called a cascade. Notice again
 Now let our mind work out all that we have told it about conditional statements while we pay attention to our old friends - types int, char and float. We are going to meet their siblings.
 
 #### 2.2 More types and when we use them
+##### 2.2.1 Not only the int is an int
+It would seem that the developer's life would be organized well enough if they had type int to operate with integers, the type char to manipulate the characters and the type float for floating-point calculations. However, this practice has shown that such narrow repertoire of types may raise some problems.
 
+Most of the currently used computers store ints using 32 bits (4 bytes); it means that we can operate the ints from the range of [-2147483648 .. 2147483647]. It may happen that:
 
+we do not need such big values; if we count sheep, it is unlikely that we perceive two billion of them so why waste the majority of these 32 bits if we do not need them we need much larger values, for example, we intend to calculate the exact number of humans living on Earth; in this case we need more than 32 bits to represent that number we only need two different values to represent the on/off states or the true/false conditions which don't actually have a numerical interpretation (although we can make presumptions for them and use 1 as `on` and 0 as `off`, for example) this brings us to another observation - after all, the number of inhabitants of Earth will never be a negative number; we might feel some discomfort caused by the fact that up to half of the permissible range will never be used.
+
+##### 2.2.2 Not only the int is an int
+For these reasons the "C++" language provides some methods used for defining precisely how we intend to store large/small numbers. This allows the compiler to allocate memory, either smaller than usual (e.g. 16 bits instead of 32) or bigger than usual (e.g. 64 bits instead of 32). We can also declare that we guarantee that the value stored in the variable will be non-negative. In this case the width of the variable's range does not change, but it is shifted towards the positive numbers.
+This means that instead of the range of -2,147,483,648 ..2,147,483,647 we will get the range of 0 .. 4294967295.
+
+##### 2.2.3 Not only the int is an int
+To specify our memory requirements we can use some additional keywords called modifiers:
+
+long - is used to declare that we need a wider range of ints than the standard one;
+short - is used to determine that we need a narrower range of ints than the standard one;
+unsigned - is used to specify that a variable is used only for non-negative numbers;
+
+although it may be surprising, we can use that modifier together with the type char; we will explain it soon.
+
+Let us present some examples.
+```{r eval=FALSE, engine='Rcpp'}
+  long
+  short
+  unsigned
+```
+
+##### 2.2.4 Not only the int is an int
+The Counter variable will use fewer (or just as many) bits than the standard int (e.g., it could be 16 bit long - in this case, the range of the variable will be suppressed to the range of [-32768 to 32767]). The word int may be omitted as all the declarations lacking a type name are considered as specifying int by default, like this:
+```{r eval=FALSE, engine='Rcpp'}
+  short Counter;
+```
+
+##### 2.2.5 Not only the int is an int
+The Ants variable will occupy more (or just as many) bits than the standard int (e.g. 64 bits so it can be used to store numbers from the range of [-9223372036854775808 .. 9223372036854775807] - can you read such huge numbers? Note - we can omit the word int again:
+```{r eval=FALSE, engine='Rcpp'}
+  long Ants;
+```
+
+##### 2.2.6 Not only the int is an int
+If we came to the conclusion that a variable will never be a negative value, we can use the unsigned modifier. Of course we can omit the int as usual:
+```{r eval=FALSE, engine='Rcpp'}
+  unsigned Positive;
+```
+
+##### 2.2.7 Not only the int is an int
+We can also mix some of the modifiers together - take a look.
+We can remove the word `int` and the declaration will preserve its meaning:
+```{r eval=FALSE, engine='Rcpp'}
+  unsigned long HugeNumber;
+```
+
+##### 2.2.8 Not only the int is an int
+A more modest example goes here.
+Its equivalent form is:
+```
+  unsigned short Lambs;
+```
+
+##### 2.2.9 Not only the int is an int
+The long and short modifiers must not be used in conjunction with the type char (why?) and (for obvious reasons) must not be used simultaneously in a single declaration. But there is nothing preventing us from using the unsigned modifier with a variable of type char. What do we get from such a declaration?
+
+Don't forget that we are not allowed to omit the word char. Most of the currently used compilers assume that the chars are stored using 8 bits (1 byte). That may be enough to store a small value such as the number of months or even the day of the month. If we treat the char variable as a signed integer number, its range would be [-128 .. 127]. If we don't need any signed value (as in the example presented here), its range shifts to [0 .. 255]. It may be sufficient for many applications and may also result in significant savings in the memory usage.
+
+It is also necessary to add an important remark. So far we used integer literals, assuming that all of them are of type int.  It's generally true but there are some cases when the compiler recognizes literals of a type long. This will happen if:
+
+a literal value goes beyond the acceptable range of type int;
+a letter L or l is appended to the literal, such as 0L or 1981l - both of these literals are of type long
+
+##### 2.2.10 Not only the int is an int
+The short and long modifiers cannot be used along with the float but there is type named double. Variables of type double may differ from the variables of type float not only in range but also in accuracy. What does this mean? The data stored in the floating-point variable has finite precision - in other words, only a certain number of digits are precisely stored in the variable. For example, we expect that the value:
+```
+1111111111111111111.111111111111111111111
+```
+
+will be stored by a specific type of computer as:
+```
+1111111131851653120.000000
+```
+
+We say that the variable saves (only) 8 precise digits. This is within the expected accuracy of 32-bit long floats. Using a double (which is usually 64 bit long) guarantees that the variable will save more significant digits - about 15-17. This is where the name double came from - its accuracy is doubled comparing to float.
+
+##### 2.2.11 Floats and their traits
+We told you some time ago that the computer addition is not always commutative. Do you know why? Imagine that you have to add a large number of floating-point values - some of them are very large, some very small (close to zero). If such a very small float value is added to another that is very large the result may surprise you a lot. Let us return to the previous example - assume that our computer only saves 8 precise digits of any float. If we add these two floats we will probably get
+```
+11111110656.000000
+```
+
+as the result. The lesser value simply vanished without a trace.
+
+We cannot avoid such effects when we add/subtract the numbers of type float (and double too because they are also affected by this issue). The phenomenon described here is one of the so-called numerical anomalies.
+
+##### 2.2.12 In memory of George Boole
+George Boole (1815 - 1864) was an English mathematician, philosopher and logician and we talk about him not without a  reason. One of his most important achievements was the so called algebraic logic referred to by Boole himself as "the laws of though". Algebraic logic does not operate on numbers but on only two truth values and doesn't use standard arithmetic operations like addition and multiplying but conjunction, disjunction and negation.
+
+Taking into account the fact that virtually all modern computers are built using Boole's theorems we can say without exaggeration that Boole was actually one of the founders of IT.
+
+There is a type in the "C++" language whose name acts as a commemoration to George Boole -its name is bool.
+
+It's a very intriguing type. Variables of this type are able to store only two distinctive values: true and false. Note: all these new words (bool, true and false) are keywords. Don't forget that.
+
+Take a look at the example presented on the right
+
+We've declared a variable there. Neither its name nor its value requires additional comments. There are many contexts where this variable may be useful. One of the most spectacular is the following one:
+```{r eval=FALSE, engine='Rcpp'}
+  if(developer_is_hungry) {
+    HaveLunch();
+    developer_is_hungry = !developer_is_hungry;
+  }
+```
+
+The exclamation mark used in the assignment is a negation operator. It's a unary prefix operator which changes the logical value of its arguments: because of the operator, true became false and vice versa. As you see, having lunch changes the logical state of the one of the most important factors of a programmer's well-being.
+
+To be honest, the bool type is only a very special variant of the int type. It's very short (variables of this type occupy only 8 bits, which is still too much, because one bit would be enough). It behaves like an int inside expressions (true is equivalent to 1 while false results in the value of 0).
+
+We will return to this type and its values soon. To George Bool's algebra and logical operators, too.
 
 
 
