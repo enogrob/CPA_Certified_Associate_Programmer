@@ -219,8 +219,6 @@ To be honest, the bool type is only a very special variant of the int type. It's
 
 We will return to this type and its values soon. To George Bool's algebra and logical operators, too.
 
-
-
 #### 2.3 Loops
 ```{r eval=FALSE, engine='Rcpp'}
 #include <iostream>
